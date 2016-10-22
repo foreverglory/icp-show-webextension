@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ICP Information</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/popup.js"></script>
+</head>
+
+<body>
+    <table id="info">
+        <tr>
+            <td>
+                网站域名
+            </td>
+            <td>
+                <span id="domain"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                主办单位名称
+            </td>
+            <td>
+                <span id="unitName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                主办单位性质
+            </td>
+            <td>
+                <span id="unitType"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                网站备案/许可证号
+            </td>
+            <td>
+                <span id="icp"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                网站名称
+            </td>
+            <td>
+                <span id="webName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                网站首页网址
+            </td>
+            <td>
+                <span id="webHome"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                审核通过时间
+            </td>
+            <td>
+                <span id="verifyDate"></span>
+            </td>
+        </tr>
+    </table>
+    <div id="search">
+        <p>
+            域名： <span id="domain"></span>
+        </p>
+        <p>
+            <input type="text" id="code"/>
+            <img height=30 src="http://www.miitbeian.gov.cn/getVerifyCode?01" id="verify-vode"/>
+        </p>
+        <p>
+            <input type="button" id="submit" value="查询">
+        </p>
+    </div>
+</body>
+
+</html>

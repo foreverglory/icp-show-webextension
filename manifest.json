@@ -1,0 +1,39 @@
+{
+    "name": "ICP Show",
+    "description": "显示网站ICP备案信息",
+    "homepage_url": "http://foreverglory.me",
+    "version": "1.0",
+
+    "manifest_version": 2,
+    "icons": {
+        "64": "icons/icon.png"
+    },
+
+    "permissions": [
+        "alarms",
+        "tabs",
+        "webRequest",
+        "webRequestBlocking",
+        "cookies",
+        "storage",
+        "<all_urls>"
+    ],
+
+    "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com; object-src 'self'",
+
+    "page_action": {
+        "default_icon": "icons/icon.png",
+        "default_title": "查看备案信息",
+        "default_popup": "pages/popup.html"
+    },
+
+    "background": {
+        "scripts": ["backgrounds/main.js"]
+    },
+
+    "applications": {
+        "gecko": {
+            "id": "showicp@foreverglory.me"
+        }
+    }
+}
