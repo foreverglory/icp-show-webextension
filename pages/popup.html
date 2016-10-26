@@ -4,81 +4,69 @@
 <head>
     <meta charset="utf-8">
     <title>ICP Information</title>
+    <link rel="stylesheet" href="./css/popup.css" />
+    <style media="screen">
+
+    </style>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/popup.js"></script>
 </head>
 
 <body>
-    <table id="info">
-        <tr>
-            <td>
-                网站域名
-            </td>
-            <td>
-                <span id="domain"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                主办单位名称
-            </td>
-            <td>
-                <span id="unitName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                主办单位性质
-            </td>
-            <td>
-                <span id="unitType"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                网站备案/许可证号
-            </td>
-            <td>
-                <span id="icp"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                网站名称
-            </td>
-            <td>
-                <span id="webName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                网站首页网址
-            </td>
-            <td>
-                <span id="webHome"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                审核通过时间
-            </td>
-            <td>
-                <span id="verifyDate"></span>
-            </td>
-        </tr>
-    </table>
-    <div id="search">
-        <p>
-            域名： <span id="domain"></span>
-        </p>
-        <p>
-            <input type="text" id="code"/>
-            <img height=30 src="http://www.miitbeian.gov.cn/getVerifyCode?01" id="verify-vode"/>
-        </p>
-        <p>
-            <input type="button" id="submit" value="查询">
-        </p>
+    <div id="message">
+        <span></span>
     </div>
+    <div id="loading">
+        <img src="./images/loading.gif" />
+    </div>
+    <ul id="info">
+        <li>
+            <label>网站备案/许可证号</label> <span id="license"></span>
+        </li>
+        <li>
+            <label>网站域名</label> <span id="domain"></span>
+        </li>
+        <li>
+            <label>网站名称</label> <span id="name"></span>
+        </li>
+        <li>
+            <label>网站首页网址</label> <span id="homepage"></span>
+        </li>
+        <li>
+            <label>主办单位名称</label> <span id="title">22</span>
+        </li>
+        <li>
+            <label>主办单位性质</label> <span id="type"></span>
+        </li>
+        <li>
+            <label>审核通过时间</label> <span id="audit"></span>
+        </li>
+    </ul>
+    <ul id="without">
+        <li>
+            <label>网站域名</label> <span id="domain"></span>
+        </li>
+        <li>
+            <label>网站备案/许可证号</label> <span>未备案</span> <input type="button" id="try" value="重新查询">
+        </li>
+    </ul>
+
+    <ul id="search">
+        <li>
+            <label>域名</label> <span id="domain"></span>
+        </li>
+        <li>
+        </li>
+        <li>
+            <label>验证码</label>
+            <input type="text" id="code" size="8"/>
+            <img src="http://www.miitbeian.gov.cn/getVerifyCode?01" id="verify-code" class="offset-left"/>
+        </li>
+        <li>
+            <label></label>
+            <input type="button" id="submit" value="查询">
+        </li>
+    </ul>
 </body>
 
 </html>

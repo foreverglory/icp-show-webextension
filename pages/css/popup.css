@@ -1,0 +1,86 @@
+body {
+    line-height: 28px;
+}
+
+ul {
+    margin: 20px 30px;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    display: block;
+}
+
+input {
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 14px;
+    height: 24px;
+}
+
+.offset-left {
+    margin-left: 5px;
+}
+
+#info, #without, #search {
+    display: none;
+}
+
+#message {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#message span {
+    padding: 5px 40px;
+    background: #fff;
+    color: red;
+    display: block;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+#loading {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+
+#info {}
+
+#info li label, #without li label {
+    width: 150px;
+    display: inline-block;
+}
+
+#info li span {}
+
+#search {}
+
+#search li label {
+    width: 60px;
+    display: inline-block;
+}
+
+#search img {
+    position: relative;
+    height: 30px;
+    border-radius: 4px;
+    vertical-align: middle;
+    border: 0 none;
+}
+
+#search input[type=button] {
+    display: block;
+    width: 100%;
+    height: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

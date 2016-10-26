@@ -19,7 +19,11 @@
         "<all_urls>"
     ],
 
-    "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com; object-src 'self'",
+    "content_security_policy": "script-src 'self'; object-src 'self'",
+
+    "options_ui": {
+        "page": "pages/options.html"
+    },
 
     "page_action": {
         "default_icon": "icons/icon.png",

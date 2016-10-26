@@ -1,38 +1,84 @@
-var ICP = Object;
-
 function verifyCodeUrl() {
     return "http://www.miitbeian.gov.cn/getVerifyCode?" + parseInt(Math.random() * 100);
 }
 
 jQuery(function($) {
+    $("#message").on("click", function(){
+        $(this).hide();
+    });
+
+    renderLoader();
     chrome.tabs.query({
         currentWindow: true,
         active: true
     }, function(tabs) {
-        var domain = window.urlDomain(tabs[0].url);
-        window.getStorage(domain, function(icp) {
-            renderICP(icp);
-        }, function(domain) {
-            renderSearch(domain);
-        });
+        var host = getHost(tabs[0].url);
+        if (host) {
+            var domain = getDomain(host);
+            chrome.storage.local.get(domain, function(result) {
+                var icp = result[domain];
+                if (icp) {
+                    renderICP(icp, "local");
+                } else {
+                    $.ajax(domainDataUrl(domain), {
+                        cache: true,
+                        timeout: 1000 * 60,
+                        dataType: "json",
+                        success: function(icp) {
+                            renderICP(icp, "network");
+                            saveICP(icp);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            renderSearch(domain);
+                        }
+                    });
+                }
+            });
+        }
     });
 });
 
-function renderICP(icp) {
-    $.each(icp, function(key, value) {
-        $("#" + key).text(value);
-    });
-    $("#info").show();
-    $("#search").hide();
-    
+function renderLoader(domain = ""){
+    $("#loading").show();
+}
+
+function renderICP(icp, source = "local") {
+    var $info = $("#info").hide();
+    var $without = $("#without").hide();
+    var $search = $("#search").hide();
+    $("#loading").hide();
+
+    if(icp.license){
+        $.each(icp, function(key, value) {
+            $("#" + key, $info).text(value);
+        });
+        $info.show();
+    }else{
+        $("#domain", $without).text(icp.domain);
+        $("#try", $without).on("click", function(){
+            renderSearch(icp.domain);
+        });
+        $without.show();
+    }
 }
 
 function renderSearch(domain) {
-    $("#verify-vode").attr("src", verifyCodeUrl()).on("click", function() {
+    var $search = $("#search").show();
+    var $message = $("#message").hide();
+    $("#loading").hide();
+    $("#info").hide();
+    $("#without").hide();
+    $("#domain", $search).html(domain);
+    var $code = $("#code", $search);
+    var $verify = $("#verify-code", $search).attr("src", verifyCodeUrl()).on("click", function() {
         $(this).attr("src", verifyCodeUrl());
     });
-    $("#submit").on("click", function() {
-        var code = $("#code").val();
+    var $submit = $("#submit", $search).on("click", function() {
+        var code = $code.val();
+        if(!code){
+            $message.html("<span>请输入验证码</span>").show();
+            return;
+        }
         $.post("http://www.miitbeian.gov.cn/common/validate/validCode.action", {
             validateValue: code
         }, function(data) {
@@ -53,59 +99,67 @@ function renderSearch(domain) {
                     var table = $("table table", html);
                     var tr = $("tr:eq(1)", table);
 
-                    var icp = new ICP({
+                    var icp = {
                         'domain': domain,
-                        'unitName': $("td:eq(1)", tr).text().trim(),
-                        'unitType': $("td:eq(2)", tr).text().trim(),
-                        'icp': $("td:eq(3)", tr).text().trim(),
-                        'webName': $("td:eq(4)", tr).text().trim(),
-                        'webHome': $("td:eq(5)", tr).text().trim(),
-                        'verifyDate': $("td:eq(6)", tr).text().trim()
-                    });
+                        'title': $("td:eq(1)", tr).text().trim(),
+                        'type': $("td:eq(2)", tr).text().trim(),
+                        'license': $("td:eq(3)", tr).text().trim(),
+                        'name': $("td:eq(4)", tr).text().trim(),
+                        'homepage': $("td:eq(5)", tr).text().trim(),
+                        'audit': $("td:eq(6)", tr).text().trim(),
+                        "source": "local"
+                    };
+
                     renderICP(icp);
-                    window.saveStorage(domain, icp);
+                    saveICP(icp);
                 })
             } else {
-                alert("error");
+                $message.html("<span>验证码错误</span>").show();
+                //$verify.trigger("click");
             }
         }, "json");
     });
-    $("#search").show();
-    $("#info").hide();
+    $code.on("keyup", function(event){
+        if(event.keyCode == 13){
+            $submit.trigger("click");
+        }
+    });
 }
 
+function getHost(url) {
+    return url.split("/")[2];
+}
 
-window.urlDomain = function(url) {
-    var host = url.split("/")[2];
-    if (!host) {
-        return '';
-    }
-    var tmp = host.split(".");
-    var length = tmp.length;
-    var domain = tmp.slice(length - 2).join(".");
-    [
-        "com.cn", "net.cn", "org.cn", "gov.cn", "com.hk", "com.tw", "com.co",
+function getDomain(host) {
+    var tops = [
+        "com.cn", "net.cn", "org.cn", "gov.cn", "edu.cn", "com.hk", "com.tw", "com.co",
         "ac.cn", "bj.cn", "sh.cn", "tj.cn", "cq.cn", "he.cn", "sn.cn", "sx.cn", "nm.cn", "ln.cn", "jl.cn", "hl.cn", "js.cn", "zj.cn", "ah.cn", "fj.cn", "jx.cn", "sd.cn", "ha.cn", "hb.cn", "hn.cn", "gd.cn", "gx.cn", "hi.cn", "sc.cn", "gz.cn", "yn.cn", "gs.cn", "qh.cn", "nx.cn", "xj.cn", "tw.cn", "hk.cn", "mo.cn", "xz.cn"
-    ].forEach(function(value) {
-        if (value == domain) {
-            return domain = tmp.slice(length - 3, length - 2) + "." + domain;
-        }
-    });
+    ];
+
+    var parts = host.split(".");
+    var length = parts.length;
+    var domain = host;
+    if (length > 2) {
+        domain = parts.slice(length - 2).join(".");
+        tops.forEach(function(top) {
+            if (top == domain) {
+                domain = parts.slice(length - 3, length - 2) + "." + domain;
+                return domain;
+            }
+        });
+    }
     return domain;
-};
+}
 
-window.getStorage = function(name, success, failure = null) {
-    chrome.storage.local.get(name, function(result) {
-        if (result[name]) {
-            success(result[name]);
-        } else if (typeof failure == "function") {
-            failure(name);
-        }
-    });
-};
+function domainDataUrl(domain) {
+    var parts = domain.split(".");
+    var name = parts[0];
+    var top = parts.slice(1).join(".");
+    return "http://foreverglory.me/icp-data/domain/" + top + "/" + name + ".json";
+}
 
-window.saveStorage = function(name, object, success = null) {
+function saveICP(icp) {
     var storage = {};
-    storage[name] = object;
-    chrome.storage.local.set(storage, success);
+    storage[icp.domain] = icp;
+    chrome.storage.local.set(storage);
 }

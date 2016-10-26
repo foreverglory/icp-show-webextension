@@ -52,7 +52,3 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.pageAction.show(activeInfo.tabId);
 });
-
-chrome.pageAction.onClicked.addListener((tab) => {
-    console.log("clicked",tab);
-});
