@@ -9,6 +9,7 @@
 
     </style>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/icp-helper.js"></script>
     <script type="text/javascript" src="./js/popup.js"></script>
 </head>
 
@@ -21,7 +22,7 @@
     </div>
     <ul id="info">
         <li>
-            <label>网站备案/许可证号</label> <span id="license"></span>
+            <label>网站备案/许可证号</label> <span id="license"></span> <input type="button" id="try" value="重新查询">
         </li>
         <li>
             <label>网站域名</label> <span id="domain"></span>
@@ -33,21 +34,13 @@
             <label>网站首页网址</label> <span id="homepage"></span>
         </li>
         <li>
-            <label>主办单位名称</label> <span id="title">22</span>
+            <label>主办单位名称</label> <span id="title"></span>
         </li>
         <li>
             <label>主办单位性质</label> <span id="type"></span>
         </li>
         <li>
             <label>审核通过时间</label> <span id="audit"></span>
-        </li>
-    </ul>
-    <ul id="without">
-        <li>
-            <label>网站域名</label> <span id="domain"></span>
-        </li>
-        <li>
-            <label>网站备案/许可证号</label> <span>未备案</span> <input type="button" id="try" value="重新查询">
         </li>
     </ul>
 
