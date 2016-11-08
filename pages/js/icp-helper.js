@@ -81,7 +81,8 @@ function requestOfficialData(domain, code, success, error) {
                     mainUnitCertNo: "",
                     verifyCode: code
                 }, function(html) {
-                    var table = $("table table", html);
+                    var doc = new DOMParser().parseFromString(html, 'text/html');
+                    var table = $("table table", doc);
                     var tr = $("tr:eq(1)", table);
 
                     var icp = {

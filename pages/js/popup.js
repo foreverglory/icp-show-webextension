@@ -73,7 +73,7 @@ function verifyCodeUrl() {
 
     function message(message, type = "info") {
         $message.show();
-        $message.html("<span>" + message + "</span>");
+        $message.empty().append($("<span>").text(message));
         $loading.hide();
     }
 
