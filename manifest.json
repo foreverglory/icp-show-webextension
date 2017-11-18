@@ -2,7 +2,7 @@
     "name": "ICP Show",
     "description": "显示网站ICP备案信息",
     "homepage_url": "http://foreverglory.me",
-    "version": "1.0.5",
+    "version": "1.0.6",
 
     "manifest_version": 2,
     "icons": {
