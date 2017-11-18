@@ -25,7 +25,7 @@ input {
 }
 
 #info, #without, #search {
-    display: none; 
+    display: none;
 }
 
 #message {
@@ -60,7 +60,9 @@ input {
     display: inline-block;
 }
 
-#info li span {}
+#info li span {
+    width: 150px;
+}
 
 #search {}
 
