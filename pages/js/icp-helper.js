@@ -3,7 +3,7 @@ function icpLog() {
 }
 
 var icpDomain = "www.miitbeian.gov.cn";
-var icpCookie = "__jsl_clearance";
+var icpCookie = "__jsluid";
 //获取 ICP 网站 Cookie
 function getOfficialCookie(callback) {
     chrome.cookies.get({
@@ -22,7 +22,7 @@ function getOfficialCookie(callback) {
 
 /**
  * 生成 ICP 网站 Cookie
- * 用于请求 www.miitbeian.gov.cn 网站，创建 Cookie `__jsl_clearance`，否则页面将返回 521。
+ * 用于请求 www.miitbeian.gov.cn 网站，创建 Cookie `__jsluid`，否则页面将返回 521。
  */
 function buildOfficialCookie(callback) {
     chrome.tabs.create({
